@@ -4,14 +4,16 @@ import SceneKeys from '~/consts/SceneKeys';
 import TextuerKeys from '~/consts/TextureKeys';
 
 export default class Game extends Phaser.Scene {
+    background!: Phaser.GameObjects.TileSprite;
     constructor() {
         super(SceneKeys.Game);
     }
 
     create() {
         const { width, height } = this.scale;
-        this.add.tileSprite(0, 0, width, height, TextuerKeys.Background)
-            .setOrigin(0);
+        this.background = this.add.tileSprite(0, 0, width, height, TextuerKeys.Background)
+            .setOrigin(0)
+            .setScrollFactor(0);
   
         const mouse = this.physics.add.sprite(
             width * 0.5,
@@ -38,5 +40,9 @@ export default class Game extends Phaser.Scene {
             Number.MAX_SAFE_INTEGER,
             height
         );
+    }
+
+    update(t: number, dt: number) {
+        this.background.setTilePosition(this.cameras.main.scrollX);
     }
 }

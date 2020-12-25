@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import Game from './scenes/Game'
 
 import HelloWorldScene from './scenes/HelloWorldScene'
+import Preloader from './scenes/Preloader'
 
 const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.CANVAS,
@@ -13,7 +14,7 @@ const config: Phaser.Types.Core.GameConfig = {
 			gravity: { y: 200 }
 		}
 	},
-	scene: [Game]
+	scene: [Preloader, Game]
 }
 
 export default new Phaser.Game(config)

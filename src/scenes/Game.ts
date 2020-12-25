@@ -19,11 +19,26 @@ export default class Game extends Phaser.Scene {
         const { width, height } = this.scale;
         this.add.tileSprite(0, 0, width, height, GameImages.Background)
             .setOrigin(0);
+
+        this.anims.create({
+            key: "rocket-mouse-run",
+            frames: this.anims.generateFrameNames(GameImages.RocketMouse, {
+                start: 1,
+                end: 4,
+                prefix: "rocketmouse_run",
+                zeroPad: 2,
+                suffix: ".png",
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+  
         this.add.sprite(
             width * 0.5,
             height * 0.5,
             GameImages.RocketMouse,
             "rocketmouse_fly01.png"
-        );
+        )
+        .play("rocket-mouse-run");
     }
 }

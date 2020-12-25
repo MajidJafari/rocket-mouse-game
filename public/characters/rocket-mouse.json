@@ -47,14 +47,46 @@
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":126},
 	"sourceSize": {"w":134,"h":126}
+},
+"rocketmouse_run01.png":
+{
+	"frame": {"x":624,"y":0,"w":134,"h":126},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":126},
+	"sourceSize": {"w":134,"h":126}
+},
+"rocketmouse_run02.png":
+{
+	"frame": {"x":758,"y":0,"w":134,"h":126},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":126},
+	"sourceSize": {"w":134,"h":126}
+},
+"rocketmouse_run03.png":
+{
+	"frame": {"x":892,"y":0,"w":134,"h":126},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":126},
+	"sourceSize": {"w":134,"h":126}
+},
+"rocketmouse_run04.png":
+{
+	"frame": {"x":1026,"y":0,"w":134,"h":126},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":126},
+	"sourceSize": {"w":134,"h":126}
 }},
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "rocket-mouse.png",
 	"format": "RGBA8888",
-	"size": {"w":624,"h":126},
+	"size": {"w":1160,"h":126},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:a5cd7a0214d46a2a44a4a7d679af641c:411c969319b84bab3624f0cf66406412:313f07cac562cbc3006d7b8a9e70e85b$"
+	"smartupdate": "$TexturePacker:SmartUpdate:f3dd7e46b2c77930875dce8afbd93b1d:366828f82c7ab69843faa0e38f7f7abe:313f07cac562cbc3006d7b8a9e70e85b$"
 }
 }

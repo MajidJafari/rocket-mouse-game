@@ -47,10 +47,11 @@ export default class Game extends Phaser.Scene {
     private createMouse(width: number, height: number) {
         return this.physics.add.sprite(
             width * 0.5,
-            height * 0.5,
+            height - 30,
             TextuerKeys.RocketMouse,
             "rocketmouse_fly01.png"
         )
+            .setOrigin(0.5, 1)
             .play(AnimationKeys.RocketMouseRun);
     }
 

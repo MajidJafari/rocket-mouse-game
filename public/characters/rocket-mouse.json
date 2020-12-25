@@ -1,0 +1,60 @@
+{"frames": {
+
+"flame1.png":
+{
+	"frame": {"x":0,"y":0,"w":44,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":44,"h":64},
+	"sourceSize": {"w":44,"h":64}
+},
+"flame2.png":
+{
+	"frame": {"x":44,"y":0,"w":44,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":44,"h":64},
+	"sourceSize": {"w":44,"h":64}
+},
+"rocketmouse_dead01.png":
+{
+	"frame": {"x":88,"y":0,"w":134,"h":126},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":126},
+	"sourceSize": {"w":134,"h":126}
+},
+"rocketmouse_dead02.png":
+{
+	"frame": {"x":222,"y":0,"w":134,"h":126},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":126},
+	"sourceSize": {"w":134,"h":126}
+},
+"rocketmouse_fall01.png":
+{
+	"frame": {"x":356,"y":0,"w":134,"h":126},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":126},
+	"sourceSize": {"w":134,"h":126}
+},
+"rocketmouse_fly01.png":
+{
+	"frame": {"x":490,"y":0,"w":134,"h":126},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":126},
+	"sourceSize": {"w":134,"h":126}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "rocket-mouse.png",
+	"format": "RGBA8888",
+	"size": {"w":624,"h":126},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:a5cd7a0214d46a2a44a4a7d679af641c:411c969319b84bab3624f0cf66406412:313f07cac562cbc3006d7b8a9e70e85b$"
+}
+}

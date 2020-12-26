@@ -30,6 +30,14 @@ export default class Preloader extends Phaser.Scene {
             TextuerKeys.Window2,
             "house/object_window2.png",
         );
+        this.load.image(
+            TextuerKeys.Bookcase1,
+            "house/object_bookcase1.png",
+        );
+        this.load.image(
+            TextuerKeys.Bookcase2,
+            "house/object_bookcase2.png",
+        );
     }
 
     create() {

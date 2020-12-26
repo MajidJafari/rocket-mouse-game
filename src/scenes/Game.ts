@@ -7,6 +7,8 @@ export default class Game extends Phaser.Scene {
     mouseHole!: Phaser.GameObjects.Image;
     window1!: Phaser.GameObjects.Image;
     window2!: Phaser.GameObjects.Image;
+    bookcase1!: Phaser.GameObjects.Image;
+    bookcase2!: Phaser.GameObjects.Image;
     background!: Phaser.GameObjects.TileSprite;
     constructor() {
         super(SceneKeys.Game);
@@ -19,6 +21,8 @@ export default class Game extends Phaser.Scene {
         this.mouseHole = this.createDecoration(TextuerKeys.MouseHole, 900, 1500, 501);
         this.window1 = this.createDecoration(TextuerKeys.Window1, 900, 1300, 200);
         this.window2 = this.createDecoration(TextuerKeys.Window2, 1600, 2000, 200);
+        this.bookcase1 = this.createDecoration(TextuerKeys.Bookcase1, 2200, 2700, 580).setOrigin(0.5, 1);
+        this.bookcase2 = this.createDecoration(TextuerKeys.Bookcase2, 2900, 3400, 580).setOrigin(0.5, 1);
         const mouse = this.createMouse(width, height);
 
         this.cameras.main.startFollow(mouse);
@@ -99,6 +103,24 @@ export default class Game extends Phaser.Scene {
             this.window1.x,
             window2Padding,
             window2Padding + 800
+        );
+
+        const bookcase1Padding = this.bookcase1.width * 2;
+        this.wrapDecoration(
+            this.bookcase1,
+            bookcase1Padding,
+            sceneRightEdge,
+            bookcase1Padding,
+            bookcase1Padding + 800
+        );
+
+        const bookcase2Padding = this.bookcase2.width;
+        this.wrapDecoration(
+            this.bookcase2,
+            bookcase2Padding,
+            this.bookcase1.x,
+            bookcase2Padding,
+            bookcase2Padding + 800
         );
     }
 

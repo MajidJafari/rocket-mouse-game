@@ -5,6 +5,8 @@ import TextuerKeys from '~/consts/TextureKeys';
 
 export default class Game extends Phaser.Scene {
     mouseHole!: Phaser.GameObjects.Image;
+    window1!: Phaser.GameObjects.Image;
+    window2!: Phaser.GameObjects.Image;
     background!: Phaser.GameObjects.TileSprite;
     constructor() {
         super(SceneKeys.Game);
@@ -14,9 +16,11 @@ export default class Game extends Phaser.Scene {
         const { width, height } = this.scale;
 
         this.background = this.createBackground(width, height);
-        this.mouseHole = this.createMouseHole();
+        this.mouseHole = this.createDecoration(TextuerKeys.MouseHole, 900, 1500, 501);
+        this.window1 = this.createDecoration(TextuerKeys.Window1, 900, 1300, 200);
+        this.window2 = this.createDecoration(TextuerKeys.Window2, 1600, 2000, 200);
         const mouse = this.createMouse(width, height);
-        
+
         this.cameras.main.startFollow(mouse);
 
         const body = mouse.body as Phaser.Physics.Arcade.Body;
@@ -26,11 +30,11 @@ export default class Game extends Phaser.Scene {
         this.setBounds(height);
     }
 
-    private createMouseHole() {
-      return this.add.image(
-            Phaser.Math.Between(900, 1500),
-            501,
-            TextuerKeys.MouseHole
+    private createDecoration(textureKey: TextuerKeys, xLowerBound: number, xUpperBound: number, y: number) {
+        return this.add.image(
+            Phaser.Math.Between(xLowerBound, xUpperBound),
+            y,
+            textureKey
         );
     }
 
@@ -58,7 +62,7 @@ export default class Game extends Phaser.Scene {
         return this.physics.add.sprite(
             width * 0.5,
             height - 30,
-            TextuerKeys.RocketMouse,  
+            TextuerKeys.RocketMouse,
             "rocketmouse_fly01.png"
         )
             .setOrigin(0.5, 1)
@@ -66,15 +70,48 @@ export default class Game extends Phaser.Scene {
     }
 
     update(t: number, dt: number) {
-        this.background.setTilePosition(this.cameras.main.scrollX);
-        this.wrapMouseHole();
+        const { scrollX } = this.cameras.main;
+        this.background.setTilePosition(scrollX);
+
+        const sceneRightEdge = scrollX + this.scale.width;
+        this.wrapDecoration(
+            this.mouseHole,
+            this.mouseHole.width,
+            sceneRightEdge,
+            100,
+            1000
+        );
+
+        // multiply by 2 to add some more padding 
+        const window1Padding = this.window1.width * 2;
+        this.wrapDecoration(
+            this.window1,
+            window1Padding,
+            sceneRightEdge,
+            window1Padding,
+            window1Padding + 800
+        );
+
+        const window2Padding = this.window2.width;
+        this.wrapDecoration(
+            this.window2,
+            window2Padding,
+            this.window1.x,
+            window2Padding,
+            window2Padding + 800
+        );
     }
 
-    private wrapMouseHole() {
+    private wrapDecoration(
+        sprite: Phaser.GameObjects.Image,
+        width: number,
+        rightEdge: number,
+        xLowerBound: number,
+        xUpperBound: number
+    ) {
         const { scrollX } = this.cameras.main;
-        const rightEdge = scrollX + this.scale.width;
-        if(this.mouseHole.x + this.mouseHole.width < scrollX) {
-            this.mouseHole.x = Phaser.Math.Between(rightEdge + 100, rightEdge + 1000);
+        if (sprite.x + width < scrollX) {
+            sprite.x = Phaser.Math.Between(rightEdge + xLowerBound, rightEdge + xUpperBound);
         }
     }
 }

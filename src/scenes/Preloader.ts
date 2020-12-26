@@ -22,6 +22,14 @@ export default class Preloader extends Phaser.Scene {
             TextuerKeys.MouseHole,
             "house/object_mousehole.png",
         );
+        this.load.image(
+            TextuerKeys.Window1,
+            "house/object_window1.png",
+        );
+        this.load.image(
+            TextuerKeys.Window2,
+            "house/object_window2.png",
+        );
     }
 
     create() {

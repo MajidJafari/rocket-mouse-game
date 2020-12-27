@@ -4,6 +4,7 @@ import SceneKeys from '~/consts/SceneKeys';
 import TextuerKeys from '~/consts/TextureKeys';
 
 export default class Game extends Phaser.Scene {
+    lastDecorationX!: number;
     mouseHole!: Phaser.GameObjects.Image;
     window1!: Phaser.GameObjects.Image;
     window2!: Phaser.GameObjects.Image;
@@ -19,6 +20,7 @@ export default class Game extends Phaser.Scene {
 
         this.background = this.createBackground(width, height);
         this.mouseHole = this.createDecoration(TextuerKeys.MouseHole, 900, 1500, 501);
+        this.lastDecorationX = this.mouseHole.x;
         this.window1 = this.createDecoration(TextuerKeys.Window1, 900, 1300, 200);
         this.window2 = this.createDecoration(TextuerKeys.Window2, 1600, 2000, 200);
         this.bookcase1 = this.createDecoration(TextuerKeys.Bookcase1, 2200, 2700, 580).setOrigin(0.5, 1);
@@ -77,11 +79,9 @@ export default class Game extends Phaser.Scene {
         const { scrollX } = this.cameras.main;
         this.background.setTilePosition(scrollX);
 
-        const sceneRightEdge = scrollX + this.scale.width;
         this.wrapDecoration(
             this.mouseHole,
             this.mouseHole.width,
-            sceneRightEdge,
             100,
             1000
         );
@@ -91,7 +91,6 @@ export default class Game extends Phaser.Scene {
         this.wrapDecoration(
             this.window1,
             window1Padding,
-            sceneRightEdge,
             window1Padding,
             window1Padding + 800
         );
@@ -100,7 +99,6 @@ export default class Game extends Phaser.Scene {
         this.wrapDecoration(
             this.window2,
             window2Padding,
-            this.window1.x,
             window2Padding,
             window2Padding + 800
         );
@@ -109,7 +107,6 @@ export default class Game extends Phaser.Scene {
         this.wrapDecoration(
             this.bookcase1,
             bookcase1Padding,
-            sceneRightEdge,
             bookcase1Padding,
             bookcase1Padding + 800
         );
@@ -118,7 +115,6 @@ export default class Game extends Phaser.Scene {
         this.wrapDecoration(
             this.bookcase2,
             bookcase2Padding,
-            this.bookcase1.x,
             bookcase2Padding,
             bookcase2Padding + 800
         );
@@ -127,13 +123,12 @@ export default class Game extends Phaser.Scene {
     private wrapDecoration(
         sprite: Phaser.GameObjects.Image,
         width: number,
-        rightEdge: number,
         xLowerBound: number,
         xUpperBound: number
     ) {
         const { scrollX } = this.cameras.main;
         if (sprite.x + width < scrollX) {
-            sprite.x = Phaser.Math.Between(rightEdge + xLowerBound, rightEdge + xUpperBound);
+            this.lastDecorationX = sprite.x = this.lastDecorationX + sprite.width + Phaser.Math.Between(xLowerBound, xUpperBound);
         }
     }
 }

@@ -7,12 +7,14 @@ import RocketMouse from '~/game/RocketMouse';
 
 export default class Game extends Phaser.Scene {
     lastDecorationX!: number;
+    laserObstacle!: LaserObstacle;
     mouseHole!: Phaser.GameObjects.Image;
     window1!: Phaser.GameObjects.Image;
     window2!: Phaser.GameObjects.Image;
     bookcase1!: Phaser.GameObjects.Image;
     bookcase2!: Phaser.GameObjects.Image;
     background!: Phaser.GameObjects.TileSprite;
+
     constructor() {
         super(SceneKeys.Game);
     }
@@ -27,8 +29,8 @@ export default class Game extends Phaser.Scene {
         this.window2 = this.createDecoration(TextuerKeys.Window2, 1600, 2000, 200);
         this.bookcase1 = this.createDecoration(TextuerKeys.Bookcase1, 2200, 2700, 580).setOrigin(0.5, 1);
         this.bookcase2 = this.createDecoration(TextuerKeys.Bookcase2, 2900, 3400, 580).setOrigin(0.5, 1);
-        const laserObstacle = new LaserObstacle(this, 900, 100);
-        this.add.existing(laserObstacle);
+        this.laserObstacle = new LaserObstacle(this, 900, 100);
+        this.add.existing(this.laserObstacle);
         const mouse = new RocketMouse(this,width * 0.5,height - 30);
         this.add.existing(mouse);
 
@@ -112,10 +114,19 @@ export default class Game extends Phaser.Scene {
             bookcase2Padding,
             bookcase2Padding + 800
         );
+
+        const laserObstaclePadding = this.laserObstacle.width;
+        this.wrapDecoration(
+            this.laserObstacle,
+            laserObstaclePadding,
+            laserObstaclePadding,
+            laserObstaclePadding + 100,
+        );
+        this.laserObstacle.y = Phaser.Math.Between(0, 300);
     }
 
     private wrapDecoration(
-        sprite: Phaser.GameObjects.Image,
+        sprite: Phaser.GameObjects.Image | LaserObstacle,
         width: number,
         xLowerBound: number,
         xUpperBound: number

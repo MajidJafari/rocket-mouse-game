@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import AnimationKeys from '~/consts/AnimationKeys';
 import SceneKeys from '~/consts/SceneKeys';
 import TextuerKeys from '~/consts/TextureKeys';
+import RocketMouse from '~/game/RocketMouse';
 
 export default class Game extends Phaser.Scene {
     lastDecorationX!: number;
@@ -25,7 +26,8 @@ export default class Game extends Phaser.Scene {
         this.window2 = this.createDecoration(TextuerKeys.Window2, 1600, 2000, 200);
         this.bookcase1 = this.createDecoration(TextuerKeys.Bookcase1, 2200, 2700, 580).setOrigin(0.5, 1);
         this.bookcase2 = this.createDecoration(TextuerKeys.Bookcase2, 2900, 3400, 580).setOrigin(0.5, 1);
-        const mouse = this.createMouse(width, height);
+        const mouse = new RocketMouse(this,width * 0.5,height - 30);
+        this.add.existing(mouse);
 
         this.cameras.main.startFollow(mouse);
 
@@ -62,17 +64,6 @@ export default class Game extends Phaser.Scene {
         return this.add.tileSprite(0, 0, width, height, TextuerKeys.Background)
             .setOrigin(0)
             .setScrollFactor(0);
-    }
-
-    private createMouse(width: number, height: number) {
-        return this.physics.add.sprite(
-            width * 0.5,
-            height - 30,
-            TextuerKeys.RocketMouse,
-            "rocketmouse_fly01.png"
-        )
-            .setOrigin(0.5, 1)
-            .play(AnimationKeys.RocketMouseRun);
     }
 
     update(t: number, dt: number) {

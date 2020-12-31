@@ -1,6 +1,8 @@
 import Phaser from 'phaser'
 import TextuerKeys from '~/consts/TextureKeys';
 import AnimationKeys from '~/consts/AnimationKeys';
+import RocketMouseVelocity from './RocketMouseVelocity';
+import RocketMouseBlocked from './RocketMouseBlocked';
 
 export default class RocketMouse extends Phaser.GameObjects.Container {
     body!: Phaser.Physics.Arcade.Body;
@@ -20,8 +22,10 @@ export default class RocketMouse extends Phaser.GameObjects.Container {
     private handleSpaceKey(scene: Phaser.Scene) {
         this.cursors = scene.input.keyboard.createCursorKeys();
         this.cursors.space.on("down", () => {
+            this.cursors.space.setEmitOnRepeat(true);
             this.body.setAccelerationY(-600);
             this.enableJetpack(true);
+            this.mouse.play(AnimationKeys.RocketMouseFly, true);
         });
         this.cursors.space.on("up", () => {
             this.body.setAccelerationY(0);
@@ -34,12 +38,15 @@ export default class RocketMouse extends Phaser.GameObjects.Container {
         const mouse = this.mouse;
         this.body.setSize(mouse.width, mouse.height);
         this.body.setOffset(mouse.width * -0.5, -mouse.height);
+
+        this.body.blocked = new RocketMouseBlocked(mouse);
+        this.body.velocity = new RocketMouseVelocity(mouse);
     }
 
     private addFlames(scene: Phaser.Scene) {
         this.flames = scene.add.sprite(-63, -15, TextuerKeys.RocketMouse)
             .play(AnimationKeys.RocketFlamesOn);
-        this.enableJetpack(false);    
+        this.enableJetpack(false);
         this.add(this.flames);
     }
 

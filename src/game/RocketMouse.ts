@@ -3,8 +3,10 @@ import TextuerKeys from '~/consts/TextureKeys';
 import AnimationKeys from '~/consts/AnimationKeys';
 
 export default class RocketMouse extends Phaser.GameObjects.Container {
+    body!: Phaser.Physics.Arcade.Body;
     mouse!: Phaser.GameObjects.Sprite;
     flames!: Phaser.GameObjects.Sprite;
+    cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y);
 
@@ -12,20 +14,32 @@ export default class RocketMouse extends Phaser.GameObjects.Container {
         this.addFlames(scene);
         this.addMouse(scene);
         this.handlePhysics(scene);
-        
+        this.handleSpaceKey(scene);
+    }
+
+    private handleSpaceKey(scene: Phaser.Scene) {
+        this.cursors = scene.input.keyboard.createCursorKeys();
+        this.cursors.space.on("down", () => {
+            this.body.setAccelerationY(-600);
+            this.enableJetpack(true);
+        });
+        this.cursors.space.on("up", () => {
+            this.body.setAccelerationY(0);
+            this.enableJetpack(false);
+        });
     }
 
     private handlePhysics(scene: Phaser.Scene) {
         scene.physics.add.existing(this);
         const mouse = this.mouse;
-        const body = this.body as Phaser.Physics.Arcade.Body;
-        body.setSize(mouse.width, mouse.height);
-        body.setOffset(mouse.width * -0.5, -mouse.height);
+        this.body.setSize(mouse.width, mouse.height);
+        this.body.setOffset(mouse.width * -0.5, -mouse.height);
     }
 
     private addFlames(scene: Phaser.Scene) {
         this.flames = scene.add.sprite(-63, -15, TextuerKeys.RocketMouse)
             .play(AnimationKeys.RocketFlamesOn);
+        this.enableJetpack(false);    
         this.add(this.flames);
     }
 
@@ -35,5 +49,9 @@ export default class RocketMouse extends Phaser.GameObjects.Container {
             .play(AnimationKeys.RocketMouseRun);
 
         this.add(this.mouse);
+    }
+
+    public enableJetpack(enabled: boolean) {
+        this.flames.setVisible(enabled);
     }
 }

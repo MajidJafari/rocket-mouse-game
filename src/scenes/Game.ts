@@ -115,14 +115,7 @@ export default class Game extends Phaser.Scene {
             bookcase2Padding + 800
         );
 
-        const laserObstaclePadding = this.laserObstacle.width;
-        this.wrapDecoration(
-            this.laserObstacle,
-            laserObstaclePadding,
-            laserObstaclePadding,
-            laserObstaclePadding + 100,
-        );
-        this.laserObstacle.y = Phaser.Math.Between(0, 300);
+        this.wrapLaserObstacle();
     }
 
     private wrapDecoration(
@@ -136,5 +129,20 @@ export default class Game extends Phaser.Scene {
             this.lastDecorationX += sprite.width + Phaser.Math.Between(xLowerBound, xUpperBound);
             sprite.x = this.lastDecorationX;
         }
+    }
+
+    private wrapLaserObstacle() {
+        const laserObstaclePadding = this.laserObstacle.width;
+        this.wrapDecoration(
+            this.laserObstacle,
+            laserObstaclePadding,
+            laserObstaclePadding,
+            laserObstaclePadding + 100
+        );
+        this.laserObstacle.y = Phaser.Math.Between(0, 300);
+        // Manually reposition physics body as it is static
+        const body = this.laserObstacle.body;
+        body.position.x = this.laserObstacle.x + body.offset.x;
+        body.position.y = this.laserObstacle.y;
     }
 }

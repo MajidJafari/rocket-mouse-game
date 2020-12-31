@@ -38,6 +38,14 @@ export default class Preloader extends Phaser.Scene {
             TextuerKeys.Bookcase2,
             "house/object_bookcase2.png",
         );
+        this.load.image(
+            TextuerKeys.LaserEnd,
+            "house/object_laser_end.png",
+        );
+        this.load.image(
+            TextuerKeys.LaserMiddle,
+            "house/object_laser.png",
+        );
     }
 
     create() {

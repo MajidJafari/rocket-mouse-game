@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import AnimationKeys from '~/consts/AnimationKeys';
 import SceneKeys from '~/consts/SceneKeys';
 import TextuerKeys from '~/consts/TextureKeys';
+import LaserObstacle from '~/game/LaserObstacle';
 import RocketMouse from '~/game/RocketMouse';
 
 export default class Game extends Phaser.Scene {
@@ -26,6 +27,8 @@ export default class Game extends Phaser.Scene {
         this.window2 = this.createDecoration(TextuerKeys.Window2, 1600, 2000, 200);
         this.bookcase1 = this.createDecoration(TextuerKeys.Bookcase1, 2200, 2700, 580).setOrigin(0.5, 1);
         this.bookcase2 = this.createDecoration(TextuerKeys.Bookcase2, 2900, 3400, 580).setOrigin(0.5, 1);
+        const laserObstacle = new LaserObstacle(this, 900, 100);
+        this.add.existing(laserObstacle);
         const mouse = new RocketMouse(this,width * 0.5,height - 30);
         this.add.existing(mouse);
 
@@ -119,7 +122,8 @@ export default class Game extends Phaser.Scene {
     ) {
         const { scrollX } = this.cameras.main;
         if (sprite.x + width < scrollX) {
-            this.lastDecorationX = sprite.x = this.lastDecorationX + sprite.width + Phaser.Math.Between(xLowerBound, xUpperBound);
+            this.lastDecorationX += sprite.width + Phaser.Math.Between(xLowerBound, xUpperBound);
+            sprite.x = this.lastDecorationX;
         }
     }
 }

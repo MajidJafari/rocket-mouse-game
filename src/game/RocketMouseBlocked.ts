@@ -1,5 +1,7 @@
 import Phaser from 'phaser'
 import AnimationKeys from '~/consts/AnimationKeys';
+import MouseState from '~/consts/MouseState';
+import RocketMouse from './RocketMouse';
 
 export default class RocketMouseBlocked {
     public up!: boolean;
@@ -10,13 +12,13 @@ export default class RocketMouseBlocked {
 
     set down(value: boolean) {
         this._down = value;
-        if(value) {
-            this.mouse.play(AnimationKeys.RocketMouseRun, true);
+        if(value && this.rocketMouse?.mouseState === MouseState.Running) {
+            this.rocketMouse?.mouse.play(AnimationKeys.RocketMouseRun, true);
         }
     }
     get down(): boolean {
         return this._down;
     }
     
-    constructor(private mouse: Phaser.GameObjects.Sprite){}
+    constructor(private rocketMouse: RocketMouse){}
 }

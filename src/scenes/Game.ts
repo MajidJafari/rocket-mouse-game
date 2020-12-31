@@ -41,6 +41,18 @@ export default class Game extends Phaser.Scene {
         body.setVelocityX(200);
 
         this.setBounds(height);
+
+        this.physics.add.overlap(
+            this.laserObstacle,
+            mouse,
+            this.handleOverlapLaser as any,
+            undefined,
+            this
+        );
+    }
+
+    private handleOverlapLaser(obj1: Phaser.GameObjects.GameObject, mouse: RocketMouse) {
+        mouse.kill();
     }
 
     private createDecoration(textureKey: TextuerKeys, xLowerBound: number, xUpperBound: number, y: number) {
@@ -139,10 +151,13 @@ export default class Game extends Phaser.Scene {
             laserObstaclePadding,
             laserObstaclePadding + 100
         );
-        this.laserObstacle.y = Phaser.Math.Between(0, 300);
-        // Manually reposition physics body as it is static
-        const body = this.laserObstacle.body;
-        body.position.x = this.laserObstacle.x + body.offset.x;
-        body.position.y = this.laserObstacle.y;
+        const { scrollX } = this.cameras.main;
+        if (this.laserObstacle.x + laserObstaclePadding < scrollX) {
+            this.laserObstacle.y = Phaser.Math.Between(0, 300);
+            // Manually reposition physics body as it is static
+            const body = this.laserObstacle.body;
+            body.position.x = this.laserObstacle.x + body.offset.x;
+            body.position.y = this.laserObstacle.y;
+        }
     }
 }

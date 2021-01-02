@@ -31,7 +31,7 @@ export default class Game extends Phaser.Scene {
         this.bookcase2 = this.createDecoration(TextuerKeys.Bookcase2, 2900, 3400, 580).setOrigin(0.5, 1);
         this.laserObstacle = new LaserObstacle(this, 900, 100);
         this.add.existing(this.laserObstacle);
-        const mouse = new RocketMouse(this,width * 0.5,height - 30);
+        const mouse = new RocketMouse(this, width * 0.5, height - 30);
         this.add.existing(mouse);
 
         this.cameras.main.startFollow(mouse);
@@ -144,18 +144,19 @@ export default class Game extends Phaser.Scene {
     }
 
     private wrapLaserObstacle() {
-        const laserObstaclePadding = this.laserObstacle.width;
-        this.wrapDecoration(
-            this.laserObstacle,
-            laserObstaclePadding,
-            laserObstaclePadding,
-            laserObstaclePadding + 100
-        );
-        const { scrollX } = this.cameras.main;
-        if (this.laserObstacle.x + laserObstaclePadding < scrollX) {
+        const scrollX = this.cameras.main.scrollX;
+        const rightEdge = scrollX + this.scale.width;
+        const body = this.laserObstacle.body;
+
+        const width = body.width;
+        if (this.laserObstacle.x + width < scrollX) {
+            this.laserObstacle.x = Phaser.Math.Between(
+                rightEdge + width,
+                rightEdge + width + 1000
+            );
             this.laserObstacle.y = Phaser.Math.Between(0, 300);
-            // Manually reposition physics body as it is static
-            const body = this.laserObstacle.body;
+
+            // Manually reposition physics body as it is static 
             body.position.x = this.laserObstacle.x + body.offset.x;
             body.position.y = this.laserObstacle.y;
         }

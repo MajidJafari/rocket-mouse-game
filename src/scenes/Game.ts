@@ -14,7 +14,7 @@ export default class Game extends Phaser.Scene {
     bookcase1!: Phaser.GameObjects.Image;
     bookcase2!: Phaser.GameObjects.Image;
     background!: Phaser.GameObjects.TileSprite;
-
+    private coins!: Phaser.Physics.Arcade.StaticGroup;
     constructor() {
         super(SceneKeys.Game);
     }
@@ -39,7 +39,7 @@ export default class Game extends Phaser.Scene {
         });
         this.add.existing(mouse);
         this.cameras.main.startFollow(mouse);
-        
+
 
         const body = mouse.body;
         body.setCollideWorldBounds(true);
@@ -54,6 +54,52 @@ export default class Game extends Phaser.Scene {
             undefined,
             this
         );
+
+        this.coins = this.physics.add.staticGroup();
+        this.spawCoins();
+
+        this.physics.add.overlap(
+            this.coins,
+            mouse,
+            this.handleOverlapCoin as any,
+            undefined,
+            this,
+        );
+    }
+
+    handleOverlapCoin(obj1: Phaser.GameObjects.GameObject, coin: Phaser.Physics.Arcade.Sprite) {
+        this.disableCoin(coin);
+    }
+
+    private spawCoins() {
+        this.coins.children.each(coin => {
+            this.disableCoin(coin as Phaser.Physics.Arcade.Sprite);
+        });
+
+        const rightEdge = this.cameras.main.scrollX + this.scale.width;
+        let x = rightEdge + 100;
+        const numCoins = Phaser.Math.Between(1, 20);
+
+        for(let i = 0; i < numCoins; ++i) {
+            const coin: Phaser.Physics.Arcade.Sprite = this.coins.get(
+                x, 
+                Phaser.Math.Between(100, this.scale.height - 100), 
+                TextuerKeys.Coin
+            );
+            coin.setActive(true);
+            coin.setVisible(true);
+
+            const body = coin.body;
+            body.setCircle(body.width * 0.5);
+            body.enable = true;
+
+            x += coin.width * 1.5;
+        }
+    }
+
+    private disableCoin(coin: Phaser.Physics.Arcade.Sprite) {
+        coin.body.enable = false;
+        this.coins.killAndHide(coin);
     }
 
     private handleOverlapLaser(obj1: Phaser.GameObjects.GameObject, mouse: RocketMouse) {

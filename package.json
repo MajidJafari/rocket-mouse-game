@@ -25,6 +25,7 @@
 		"typescript": "^3.8.3"
 	},
 	"dependencies": {
+		"consts": "^0.0.2",
 		"phaser": "^3.24.1"
 	},
 	"parcelCleanPaths": [

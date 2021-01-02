@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import AnimationKeys from '~/consts/AnimationKeys';
 import MouseState from '~/consts/MouseState';
+import SceneKeys from '~/consts/SceneKeys';
 import RocketMouse from './RocketMouse';
 export default class RocketMouseVelocity extends Phaser.Math.Vector2 {
     private _x!: number;
@@ -8,7 +9,7 @@ export default class RocketMouseVelocity extends Phaser.Math.Vector2 {
     set x(value: number) {
         this._x = value;
         if(value <= 5 && this.rocketMouse?.mouseState === MouseState.Killed) {
-            this.rocketMouse.mouseState = MouseState.Dead;
+            this.rocketMouse.emit("dead");
         }
     }
     get x() {

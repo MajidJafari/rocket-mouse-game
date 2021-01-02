@@ -11,14 +11,18 @@ export default class RocketMouse extends Phaser.GameObjects.Container {
     mouse!: Phaser.GameObjects.Sprite;
     flames!: Phaser.GameObjects.Sprite;
     cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
+    
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y);
-
         // create the flames and play the animation
         this.addFlames(scene);
         this.addMouse(scene);
         this.handlePhysics(scene);
         this.handleSpaceKey(scene);
+
+        this.once("dead", () => {
+            this.mouseState = MouseState.Dead;
+        });
     }
 
     private handleSpaceKey(scene: Phaser.Scene) {
@@ -76,6 +80,11 @@ export default class RocketMouse extends Phaser.GameObjects.Container {
             const body = this.body;
             this.mouse.play(AnimationKeys.RocketMouseDead);
 
+            // We should remove space listener,
+            // to prevent unexpected bugs,
+            // also after restarting, keyboard events should refer to new instance instead of previous one
+            this.cursors.space.removeListener("up");
+            this.cursors.space.removeListener("down");
             this.mouseState = MouseState.Killed;
             
             body.setAccelerationY(0);

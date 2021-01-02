@@ -29,14 +29,19 @@ export default class Game extends Phaser.Scene {
         this.window2 = this.createDecoration(TextuerKeys.Window2, 1600, 2000, 200);
         this.bookcase1 = this.createDecoration(TextuerKeys.Bookcase1, 2200, 2700, 580).setOrigin(0.5, 1);
         this.bookcase2 = this.createDecoration(TextuerKeys.Bookcase2, 2900, 3400, 580).setOrigin(0.5, 1);
+
         this.laserObstacle = new LaserObstacle(this, 900, 100);
         this.add.existing(this.laserObstacle);
+
         const mouse = new RocketMouse(this, width * 0.5, height - 30);
+        mouse.once("dead", () => {
+            this.scene.run(SceneKeys.GameOver);
+        });
         this.add.existing(mouse);
-
         this.cameras.main.startFollow(mouse);
+        
 
-        const body = mouse.body as Phaser.Physics.Arcade.Body;
+        const body = mouse.body;
         body.setCollideWorldBounds(true);
         body.setVelocityX(200);
 
